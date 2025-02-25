@@ -1,0 +1,27 @@
+[http_service]
+force_https = true
+min_machines_running = 0
+
+[http_service.http_options]
+h2_backend = true
+
+[[http_service.checks]]
+path = "/"
+method = "HEAD"
+timeout = "5s"
+grace_period = "10s"
+interval = "30s"
+[http_service.checks.headers]
+Referer = "https://x/?x_padding=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+
+[[vm]]
+cpu_kind = "shared"
+cpus = 1
+memory_mb = 256
+
+[[files]]
+guest_path = "/etc/xray/config.json"
+local_path = "xray.json"
+
+[build]
+image = "ghcr.io/xtls/xray-core"
