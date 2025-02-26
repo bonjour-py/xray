@@ -22,7 +22,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Configure xray user
-        run: jq '.inbounds.[0].settings.clients.[0].id = ${{ secrets.XRAY_USER }}' ./config.json > ./xray.json
+        run: jq ' .inbounds.[0].settings.clients.[0].id = "${{ secrets.XRAY_USER }}" ' ./config.json > ./xray.json
       - name: Create app
         env:
           FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
