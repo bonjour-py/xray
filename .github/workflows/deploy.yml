@@ -9,13 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        regions:
+        include:
           - name: hk
-            code: hkg
+            region: hkg
           - name: us
-            code: sea
+            region: sea
           - name: eu
-            code: lhr
+            region: lhr
     steps:
       - name: Setup flyctl
         uses: superfly/flyctl-actions/setup-flyctl@master
@@ -26,14 +26,14 @@ jobs:
       - name: Create app
         env:
           FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
-        run: flyctl apps create bonjour-xray-${{ matrix.regions.name }} || true
+        run: flyctl apps create bonjour-xray-${{ matrix.name }} || true
       - name: Deploy app
         env:
           FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
-          FLY_APP: bonjour-xray-${{ matrix.regions.name }}
-        run: flyctl deploy --regions ${{ matrix.regions.code }}
+          FLY_APP: bonjour-xray-${{ matrix.name }}
+        run: flyctl deploy --regions ${{ matrix.region }}
       - name: Scale app count
         env:
           FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
-          FLY_APP: bonjour-xray-${{ matrix.regions.name }}
+          FLY_APP: bonjour-xray-${{ matrix.name }}
         run: flyctl scale count 1
