@@ -26,13 +26,14 @@ jobs:
       - name: Create app
         env:
           FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
-        run: flyctl apps create bonjour-xray-${{ matrix.regions.name }}
-        continue-on-error: true
+        run: flyctl apps create bonjour-xray-${{ matrix.regions.name }} || true
       - name: Deploy app
         env:
           FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
-        run: flyctl deploy --app bonjour-xray-${{ matrix.regions.name }} --regions ${{ matrix.regions.code }}
+          FLY_APP: bonjour-xray-${{ matrix.regions.name }}
+        run: flyctl deploy --app  --regions ${{ matrix.regions.code }}
       - name: Scale app count
         env:
           FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
-        run: flyctl --app bonjour-xray-${{ matrix.regions.name }} scale count 1
+          FLY_APP: bonjour-xray-${{ matrix.regions.name }}
+        run: flyctl scale count 1
