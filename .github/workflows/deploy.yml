@@ -6,6 +6,7 @@ on:
 
 jobs:
   deploy_flyio:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         regions:
@@ -15,19 +16,23 @@ jobs:
             code: sea
           - name: eu
             code: lhr
-    runs-on: ubuntu-latest
     steps:
       - name: Setup flyctl
         uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Configure xray user
-        run: |
-          jq '.inbounds.[0].settings.clients.[0].id = ${{ secrets.XRAY_USER }}' ./config.json > ./xray.json
+        run: jq '.inbounds.[0].settings.clients.[0].id = ${{ secrets.XRAY_USER }}' ./config.json > ./xray.json
+      - name: Create app
+        env:
+          FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
+        run: flyctl apps create bonjour-xray-${{ matrix.regions.name }}
+        continue-on-error: true
       - name: Deploy app
         env:
           FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
-        run: |
-          flyctl apps create bonjour-xray-${{ matrix.regions.name }} || true
-          flyctl deploy --app bonjour-xray-${{ matrix.regions.name }} --regions ${{ matrix.regions.code }}
-          flyctl --app bonjour-xray-${{ matrix.regions.name }} scale count 1
+        run: flyctl deploy --app bonjour-xray-${{ matrix.regions.name }} --regions ${{ matrix.regions.code }}
+      - name: Scale app count
+        env:
+          FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
+        run: flyctl --app bonjour-xray-${{ matrix.regions.name }} scale count 1
