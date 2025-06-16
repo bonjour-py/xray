@@ -35,9 +35,9 @@ jobs:
         env:
           FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
           FLY_APP: bonjour-xray-${{ matrix.name }}
-        run: flyctl deploy --regions ${{ matrix.region }} 
+        run: flyctl deploy --regions ${{ matrix.region }} --yes
       - name: Scale app count
         env:
           FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
           FLY_APP: bonjour-xray-${{ matrix.name }}
-        run: flyctl scale count 1 --yes
+        run: flyctl scale count 1 --region ${{ matrix.region }} --yes
