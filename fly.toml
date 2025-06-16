@@ -21,7 +21,7 @@ memory_mb = 256
 
 [[files]]
 guest_path = "/usr/local/etc/xray/config.json"
-local_path = "xray.json"
+local_path = "config.json"
 
 [build]
 image = "ghcr.io/xtls/xray-core"
