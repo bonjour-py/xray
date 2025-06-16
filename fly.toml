@@ -8,9 +8,9 @@ h2_backend = true
 [[http_service.checks]]
 path = "/"
 method = "HEAD"
-timeout = "5s"
+timeout = "60s"
 grace_period = "10s"
-interval = "30s"
+interval = "10s"
 [http_service.checks.headers]
 Referer = "https://x/?x_padding=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 
