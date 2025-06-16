@@ -30,16 +30,16 @@ jobs:
       - name: Configure fly name
         run: sed -i -e '1i app = "bonjour-xray-${{ matrix.name }}"' ./fly.toml
       - name: Configure fly region
-        run: sed -i -e '2i primary_region = "${{ matrix.region }}"' ./fly.toml && cat fly.toml
-      # - name: Create app
-      #   env:
-      #     FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
-      #   run: flyctl apps create bonjour-xray-${{ matrix.name }} || true
-      # - name: Deploy app
-      #   env:
-      #     FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
-      #   run: flyctl deploy
-      # - name: Scale app count
-      #   env:
-      #     FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
-      #   run: flyctl scale count 1 --yes
+        run: sed -i -e '2i primary_region = "${{ matrix.region }}"' ./fly.toml
+      - name: Create app
+        env:
+          FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
+        run: flyctl apps create bonjour-xray-${{ matrix.name }} || true
+      - name: Deploy app
+        env:
+          FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
+        run: flyctl deploy
+      - name: Scale app count
+        env:
+          FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
+        run: flyctl scale count 1 --yes
