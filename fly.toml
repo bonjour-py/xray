@@ -20,7 +20,7 @@ cpus = 1
 memory_mb = 256
 
 [[files]]
-guest_path = "/etc/xray/config.json"
+guest_path = "/usr/local/etc/xray/config.json"
 local_path = "xray.json"
 
 [build]
