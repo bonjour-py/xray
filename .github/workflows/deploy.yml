@@ -29,7 +29,7 @@ jobs:
       - name: Configure fly name
         run: sed -i -e '1i app = "bonjour-xray-${{ matrix.name }}"' ./fly.toml
       - name: Configure fly region
-        run: sed -i -e '2i primary_region = "${{ matrix.region }}"' ./fly.toml; cat fly.tom; cat config.json
+        run: sed -i -e '2i primary_region = "${{ matrix.region }}"' ./fly.toml; cat fly.toml; cat config.json
       # - name: Create app
       #   env:
       #     FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
