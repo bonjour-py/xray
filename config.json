@@ -2,8 +2,9 @@
     "inbounds": [
         {
             "port": 8080,
-            "protocol": "vmess",
+            "protocol": "vless",
             "settings": {
+                "decryption": "none",
                 "clients": []
             },
             "streamSettings": {
