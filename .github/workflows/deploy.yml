@@ -24,8 +24,6 @@ jobs:
         uses: actions/checkout@v4
       - name: Configure xray user bonjour
         run: jq '.inbounds.[0].settings.clients.[0].id = "${{ secrets.XRAY_USER }}"' ./config.json > ./tmp.json && mv tmp.json config.json
-      - name: Configure xray user kanoi
-        run: jq '.inbounds.[0].settings.clients.[1].id = "${{ secrets.XRAY_USER_KANOI }}"' ./config.json > ./tmp.json && mv tmp.json config.json
       - name: Configure fly name
         run: sed -i -e '1i app = "bonjour-xray-${{ matrix.name }}"' ./fly.toml
       - name: Configure fly region
