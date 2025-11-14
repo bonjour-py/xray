@@ -11,12 +11,12 @@ jobs:
     strategy:
       matrix:
         include:
-          - name: hk
-            region: hkg
           - name: us
-            region: sea
-          - name: eu
-            region: lhr
+            region: sjc
+          - name: jp
+            region: nrt
+          - name: sg
+            region: sin
     steps:
       - name: Setup flyctl
         uses: superfly/flyctl-actions/setup-flyctl@master
