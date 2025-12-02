@@ -8,15 +8,6 @@ on:
 jobs:
   deploy_flyio:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - name: us
-            region: sjc
-          - name: jp
-            region: nrt
-          - name: sg
-            region: sin
     steps:
       - name: Setup flyctl
         uses: superfly/flyctl-actions/setup-flyctl@master
@@ -24,19 +15,18 @@ jobs:
         uses: actions/checkout@v4
       - name: Configure xray user bonjour
         run: jq '.inbounds.[0].settings.clients.[0].id = "${{ secrets.XRAY_USER }}"' ./config.json > ./tmp.json && mv tmp.json config.json
-      - name: Configure fly name
-        run: sed -i -e '1i app = "bonjour-xray-${{ matrix.name }}"' ./fly.toml
-      - name: Configure fly region
-        run: sed -i -e '2i primary_region = "${{ matrix.region }}"' ./fly.toml
       - name: Create app
         env:
           FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
-        run: flyctl apps create bonjour-xray-${{ matrix.name }} || true
+        run: flyctl apps create bonjour-xray || true
       - name: Deploy app
         env:
           FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
-        run: flyctl deploy
+        run: flyctl deploy --regions sjc,lax,iad
       - name: Scale app count
         env:
           FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
-        run: flyctl scale count 1 --yes
+        run: |
+          flyctl scale count 1 --region sjc --yes
+          flyctl scale count 1 --region lax --yes
+          flyctl scale count 1 --region iad --yes

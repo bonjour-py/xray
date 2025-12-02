@@ -1,3 +1,5 @@
+app = "bonjour-xray"
+primary_region = "sjc"
 
 [http_service]
 force_https = true
