@@ -12,7 +12,7 @@ jobs:
       - name: Setup flyctl
         uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@main
       - name: Configure xray user bonjour
         run: jq '.inbounds.[0].settings.clients.[0].id = "${{ secrets.XRAY_USER }}"' ./config.json > ./tmp.json && mv tmp.json config.json
       - name: Create app
