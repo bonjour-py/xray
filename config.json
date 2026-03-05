@@ -4,7 +4,8 @@
             "port": 8080,
             "protocol": "vless",
             "settings": {
-                "decryption": "none",
+                "decryption": "mlkem768x25519plus.native.600s.QJtGgQxf7w6ab3SR01AsCBudU7VOdOtXxH4HsCxjyE0",
+                "flow": "xtls-rprx-vision",
                 "clients": []
             },
             "streamSettings": {
